@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Login from "../components/Login";
-import NavBar from "../components/NavBar";
 
 import Register from "../components/Register";
 const LoginPage = () => {
@@ -8,8 +7,7 @@ const LoginPage = () => {
 
   return (
     <>
-      <NavBar />
-      <div className="">
+      <div className="mt-16">
         <div role="tablist" className="tabs tabs-lifted">
           <a
             role="tab"
