@@ -1,4 +1,4 @@
-import { hash } from "bcrypt";
+import { hash, compare } from "bcrypt";
 import jwt from "jsonwebtoken";
 import { PrismaClient } from "@prisma/client";
 
@@ -35,6 +35,7 @@ const registerUser = async (req, res) => {
 };
 const login = async (req, res) => {
   const { email, password, userType } = req.body;
+  let user;
   if (userType === "patient") {
     user = await prisma.patient.findUnique({
       where: {
@@ -48,11 +49,11 @@ const login = async (req, res) => {
       },
     });
   }
-  if (!user || !(hash(password, 10) == user.password)) {
+  if (!user || !(await compare(password, user.password))) {
     return res.status(400).json({ error: "Invalid email or password" });
   }
 
-  const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
+  const token = jwt.sign({ id: user.email }, process.env.JWT_SECRET);
   res.json({ token });
 };
 export { registerUser, login };

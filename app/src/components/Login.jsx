@@ -1,9 +1,11 @@
 import { useState } from "react";
+import instance from "../utils/axios";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userType, setUserType] = useState("doctor");
   const handleChange = (event) => {
     switch (event.target.name) {
       case "email":
@@ -12,6 +14,9 @@ const Login = () => {
       case "password":
         setPassword(event.target.value);
         break;
+      case "userType":
+        setUserType(event.target.value);
+        break;
       default:
         break;
     }
@@ -19,9 +24,11 @@ const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
-    const data = { email, password };
+    const data = { email, password, userType };
     try {
-      console.log(data);
+      const response = await instance.post("auth/login", data);
+      console.log(response.data);
+      setLoading(false);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -33,6 +40,30 @@ const Login = () => {
           <div className="card-body p-8">
             <h1 className="text-2xl font-bold mb-4">Login</h1>
             <form>
+              <div className="flex  justify-between mb-4">
+                <label className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    name="userType"
+                    value="patient"
+                    className="radio radio-xs"
+                    checked={userType === "patient"}
+                    onChange={(e) => handleChange(e)}
+                  />
+                  <span className="ml-2">Patient</span>
+                </label>
+                <label className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    name="userType"
+                    value="doctor"
+                    className="radio radio-xs"
+                    checked={userType === "doctor"}
+                    onChange={(e) => handleChange(e)}
+                  />
+                  <span className="ml-2">Doctor</span>
+                </label>
+              </div>
               <label className="input input-bordered flex items-center gap-2 mb-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import instance from "../utils/axios";
 
 const Register = () => {
   const [loading, setLoading] = useState(false);
@@ -37,7 +38,8 @@ const Register = () => {
       data.specialty = specialty;
     }
     try {
-      console.log(data);
+      const response = await instance.post("auth/register", data);
+      console.log(response.data);
     } catch (error) {
       console.error("Error:", error);
     }
