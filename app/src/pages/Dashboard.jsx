@@ -111,7 +111,7 @@ const Dashboard = () => {
                 Upload PDF
               </button>
               <button
-                className="btn btn-primary btn-xssm:btn-sm"
+                className="btn btn-primary btn-xs sm:btn-sm"
                 onClick={() =>
                   document.getElementById("my_modal_10").showModal()
                 }
