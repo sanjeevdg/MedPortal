@@ -9,4 +9,7 @@ export default defineConfig({
     global: {},
     __APP_ENV__: process.env.VITE_VERCEL_ENV,
   },
+  optimizeDeps: {
+    disabled: false,
+  },
 });
