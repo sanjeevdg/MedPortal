@@ -35,10 +35,13 @@ const Login = () => {
       setToken(response.data.token);
       localStorage.setItem("userType", response.data.userType);
       localStorage.setItem("user", JSON.stringify(response.data.user));
+      setLoading(false);
       navigate("/dashboard");
       window.location.reload();
     } catch (error) {
       console.error("Error:", error);
+      alert("Invalid email or password");
+      setLoading(false);
     }
   };
   return (
@@ -112,10 +115,19 @@ const Login = () => {
                   onChange={(e) => handleChange(e)}
                 />
               </label>
+              {!loading ? (
+                <button
+                  className="btn btn-md btn-primary"
+                  onClick={handleSubmit}
+                >
+                  Login
+                </button>
+              ) : (
+                <button className="btn btn-md btn-primary min-w-16">
+                  <span className="loading loading-spinner loading-sm text-white"></span>
+                </button>
+              )}
 
-              <button className="btn btn-md btn-primary" onClick={handleSubmit}>
-                Login
-              </button>
               <div className="flex justify-end mt-4 cursor-pointer">
                 <span
                   onClick={() =>
