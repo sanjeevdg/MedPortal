@@ -2,6 +2,8 @@ import { useState } from "react";
 // import AWS from "aws-sdk"; // Import entire SDK (optional)
 import AWS from "aws-sdk/global"; // Import global AWS namespace (recommended)
 import S3 from "aws-sdk/clients/s3"; // Import only the S3 client
+import instance from "../utils/axios";
+import { getToken } from "../utils/tokenHelpers";
 
 const UploadPDFCard = () => {
   const [file, setFile] = useState(null);
@@ -36,8 +38,21 @@ const UploadPDFCard = () => {
     try {
       const upload = await s3.putObject(params).promise();
       console.log(upload);
+      const encodedFileName = encodeURIComponent(file.name);
+      const fileUrl = `https://${S3_BUCKET}.s3.${REGION}.amazonaws.com/${encodedFileName}`;
+      const doctorId = JSON.parse(localStorage.getItem("user")).doctorId;
+      instance.post(
+        "uploadFile",
+        { fileUrl, doctorId },
+        {
+          headers: {
+            Authorization: `Bearer ${getToken()}`,
+          },
+        }
+      );
       setUploading(false);
       alert("File uploaded successfully.");
+      window.location.reload();
     } catch (error) {
       console.error(error);
       setUploading(false);
