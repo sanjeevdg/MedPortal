@@ -49,7 +49,7 @@ const login = async (req, res) => {
       },
     });
   } else {
-    user = await prismaClient.doctor.findUnique({
+    user = await prisma.doctor.findUnique({
       where: {
         email,
       },
