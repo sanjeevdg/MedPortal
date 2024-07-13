@@ -2,14 +2,80 @@ import { useState } from "react";
 
 const Register = () => {
   const [loading, setLoading] = useState(false);
+  const [userType, setUserType] = useState("doctor"); // Default to "patient"
+  const [specialty, setSpecialty] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleChange = (event) => {
+    switch (event.target.name) {
+      case "email":
+        setEmail(event.target.value);
+        break;
+      case "password":
+        setPassword(event.target.value);
+        break;
+      case "name":
+        setName(event.target.value);
+        break;
+      case "specialty":
+        setSpecialty(event.target.value);
+        break;
+      case "userType":
+        setUserType(event.target.value);
+        break;
+      default:
+        break;
+    }
+  };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    const data = { name, email, password, userType };
+    if (userType === "doctor") {
+      data.specialty = specialty;
+    }
+    try {
+      console.log(data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+    setLoading(false);
+  };
 
   return (
     <>
-      <div className="flex justify-center items-center w-96 h-auto">
+      <div className="flex justify-center items-center">
         <div className="card card-side bg-base-100 max-w-sm w-full">
-          <div className="card-body p-8">
+          <div className="card-body ">
             <h1 className="text-2xl font-bold mb-4">Register</h1>
             <form>
+              <div className="flex  justify-between mb-4">
+                <label className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    name="userType"
+                    value="patient"
+                    className="radio radio-xs"
+                    checked={userType === "patient"}
+                    onChange={(e) => handleChange(e)}
+                  />
+                  <span className="ml-2">Patient</span>
+                </label>
+                <label className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    name="userType"
+                    value="doctor"
+                    className="radio radio-xs"
+                    checked={userType === "doctor"}
+                    onChange={(e) => handleChange(e)}
+                  />
+                  <span className="ml-2">Doctor</span>
+                </label>
+              </div>
+
               <label className="input input-bordered flex items-center gap-2 mb-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -20,7 +86,13 @@ const Register = () => {
                   <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
                   <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
                 </svg>
-                <input required placeholder="Enter email" className="grow" />
+                <input
+                  name="email"
+                  required
+                  placeholder="Enter email"
+                  className="grow"
+                  onChange={(e) => handleChange(e)}
+                />
               </label>
               <label className="input input-bordered flex items-center gap-2 mb-4">
                 <svg
@@ -38,9 +110,23 @@ const Register = () => {
                 <input
                   type="password"
                   className="grow"
+                  name="password"
                   placeholder="Enter password"
+                  onChange={(e) => handleChange(e)}
                 />
               </label>
+
+              {userType === "doctor" && (
+                <label className="input input-bordered flex items-center gap-2 mb-4">
+                  <input
+                    type="text"
+                    name="specialty"
+                    className="grow"
+                    placeholder="Enter specialty"
+                    onChange={(e) => handleChange(e)}
+                  />
+                </label>
+              )}
 
               <div className="text-center">
                 {loading ? (
@@ -48,7 +134,10 @@ const Register = () => {
                     {/* <span className="visually-hidden">Loading...</span> */}
                   </div>
                 ) : (
-                  <button className="btn btn-primary btn-md" type="submit">
+                  <button
+                    className="btn btn-primary btn-md"
+                    onClick={handleSubmit}
+                  >
                     Register
                   </button>
                 )}
