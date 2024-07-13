@@ -17,7 +17,7 @@ Video Demo: https://www.loom.com/share/8194696d5a944b388822d9d175432021?sid=4f57
 <br/>
 <br/>
 
-![alt text](assets/Linkpatient.png)
+![alt text](assets/LinkPatient.png)
 <br/>
 <br/>
 
