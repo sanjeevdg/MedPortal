@@ -28,3 +28,22 @@ export const getAllPatients = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch patients" });
   }
 };
+export const searchPatients = async (req, res) => {
+  const { email, name } = req.query;
+  try {
+    const patients = await prisma.patient.findMany({
+      where: {
+        email: {
+          contains: email,
+        },
+        name: {
+          contains: name,
+        },
+      },
+    });
+    res.status(200).json(patients);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to search patients" });
+  }
+};

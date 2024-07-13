@@ -33,6 +33,8 @@ const Login = () => {
       const response = await instance.post("auth/login", data);
       setLoading(false);
       setToken(response.data.token);
+      localStorage.setItem("userType", response.data.userType);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
       navigate("/dashboard");
       window.location.reload();
     } catch (error) {

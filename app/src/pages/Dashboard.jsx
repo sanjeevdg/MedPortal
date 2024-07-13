@@ -5,23 +5,18 @@ import { getToken } from "../utils/tokenHelpers";
 
 const Dashboard = () => {
   const [patients, setPatients] = useState();
-  const [addBy, setAddby] = useState("email");
   const [searchEmail, setSearchEmail] = useState("");
-  const [searchName, setSearchName] = useState("");
+  const [searchResults, setSearchResults] = useState();
+  const [linkPatientId, setLinkPatientId] = useState();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const handleChange = (event) => {
     switch (event.target.name) {
-      case "addBy":
-        setAddby(event.target.value);
-        break;
       case "email":
         setSearchEmail(event.target.value);
         handleSearch();
         break;
-      case "name":
-        setSearchName(event.target.value);
-        handleSearch();
-        break;
+
       default:
         break;
     }
@@ -29,7 +24,7 @@ const Dashboard = () => {
   const handleSearch = async () => {
     try {
       const response = await instance.get(
-        `patients?email=${searchEmail}&name=${searchName}`,
+        `patients/search?email=${searchEmail}`,
         {
           headers: {
             Authorization: `Bearer ${getToken()}`,
@@ -37,14 +32,31 @@ const Dashboard = () => {
         }
       );
       console.log(response.data);
+      if (response.data.length != 0) {
+        setDropdownOpen(true);
+      }
+      setSearchResults(response.data);
     } catch (error) {
       console.error("Error:", error);
     }
   };
   const handleLinkPatient = async () => {
+    const user = JSON.parse(localStorage.getItem("user"));
     try {
-      const response = await instance.post();
-      console.log(response.data);
+      await instance.post(
+        "linkpatient",
+        {
+          doctorId: user.doctorId,
+          patientId: linkPatientId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${getToken()}`,
+          },
+        }
+      );
+      document.getElementById("my_modal_5").close();
+      window.location.reload();
     } catch (error) {
       console.error("Error:", error);
     }
@@ -104,68 +116,53 @@ const Dashboard = () => {
           <h3 className="font-bold text-lg">Link Patient</h3>
           <hr />
 
-          <div className="mt-4">
-            <div className="flex  justify-between mb-4">
-              <label className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  name="addBy"
-                  value="email"
-                  className="radio radio-xs"
-                  checked={addBy === "email"}
-                  onChange={(e) => handleChange(e)}
-                />
-                <span className="ml-2">Email</span>
-              </label>
-              <label className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  name="addBy"
-                  value="name"
-                  className="radio radio-xs"
-                  checked={addBy === "name"}
-                  onChange={(e) => handleChange(e)}
-                />
-                <span className="ml-2">Name</span>
-              </label>
-            </div>
-            {addBy === "email" ? (
-              <label className="input input-bordered flex items-center gap-2 mb-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                  className="h-4 w-4 opacity-70"
-                >
-                  <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
-                  <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
-                </svg>{" "}
-                <input
-                  type="email"
-                  className="grow"
-                  placeholder="Add by Email"
-                  onChange={(e) => handleChange(e)}
-                />
-              </label>
-            ) : (
-              <label className="input input-bordered flex items-center gap-2 mb-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                  className="h-4 w-4 opacity-70"
-                >
-                  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
-                </svg>
-                <input
-                  type="name"
-                  className="grow"
-                  placeholder="Add by Name"
-                  onChange={(e) => handleChange(e)}
-                />
-              </label>
-            )}
+          <div className="mt-4 flex  flex-col">
+            <label className="input input-bordered flex items-center gap-2 mb-4">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                className="h-4 w-4 opacity-70"
+              >
+                <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
+                <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
+              </svg>{" "}
+              <input
+                type="email"
+                name="email"
+                id="emailSearch"
+                className="grow"
+                placeholder="Add by Email"
+                onChange={(e) => handleChange(e)}
+              />
+            </label>
 
+            {dropdownOpen && searchResults && searchResults.length != 0 ? (
+              <div className="dropdown dropdown-open">
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content menu bg-base-100 rounded-box z-[1] w-96 shadow"
+                >
+                  {searchResults.map((patient) => (
+                    <li key={patient.patientId}>
+                      <a
+                        onClick={() => {
+                          setLinkPatientId(patient.patientId);
+                          setSearchEmail(patient.email);
+                          document.getElementById("emailSearch").value =
+                            patient.email;
+
+                          setDropdownOpen(false);
+                        }}
+                      >
+                        {patient.name} | {patient.email}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+            {dropdownOpen}
             <div className="flex mt-2 justify-center">
               <button
                 className="btn btn-primary size-sm"
