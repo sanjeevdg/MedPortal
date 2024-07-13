@@ -63,9 +63,10 @@ const Dashboard = () => {
   };
   useEffect(() => {
     document.title = "Dashboard";
+    const doctorId = JSON.parse(localStorage.getItem("user")).doctorId;
     try {
       instance
-        .get("patients", {
+        .get(`patients/${doctorId}`, {
           headers: {
             Authorization: `Bearer ${getToken()}`,
           },

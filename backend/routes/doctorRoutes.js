@@ -3,6 +3,7 @@ import {
   linkPatientToDoctor,
   getAllPatients,
   searchPatients,
+  getDoctorPatients,
 } from "../controllers/doctorController.js";
 import { authorizeUser } from "../middleware/middleware.js";
 const doctorRoutes = express.Router();
@@ -10,5 +11,6 @@ const doctorRoutes = express.Router();
 doctorRoutes.post("/linkpatient", authorizeUser, linkPatientToDoctor);
 doctorRoutes.get("/patients", authorizeUser, getAllPatients);
 doctorRoutes.get("/patients/search", authorizeUser, searchPatients);
+doctorRoutes.get("/patients/:doctorId", authorizeUser, getDoctorPatients);
 
 export default doctorRoutes;
