@@ -4,8 +4,8 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   return (
     <>
-      <div className="flex justify-center items-center w-96 h-auto">
-        <div className="card card-side bg-base-100 max-w-sm w-full">
+      <div className="flex justify-center items-center">
+        <div className="card card-side bg-base-100">
           <div className="card-body p-8">
             <h1 className="text-2xl font-bold mb-4">Login</h1>
             <form>
