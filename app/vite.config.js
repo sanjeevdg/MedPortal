@@ -7,5 +7,6 @@ export default defineConfig({
   plugins: [react(), tailwindcss("./tailwind.config.js")],
   define: {
     global: {},
+    __APP_ENV__: process.env.VITE_VERCEL_ENV,
   },
 });
