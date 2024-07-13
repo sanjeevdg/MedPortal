@@ -53,12 +53,41 @@ const Login = () => {
                 )}
               </div>
               <div className="flex justify-end mt-4 cursor-pointer">
-                <span>Forgot password?</span>
+                <span
+                  onClick={() =>
+                    document.getElementById("my_modal_5").showModal()
+                  }
+                >
+                  Forgot password?
+                </span>
               </div>
             </form>
           </div>
         </div>
       </div>
+
+      <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
+          <form method="dialog">
+            {/* if there is a button in form, it will close the modal */}
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+              ✕
+            </button>
+          </form>
+          <h3 className="font-bold text-lg">Forgot Password</h3>
+          <hr />
+          <div className="mt-4">
+            <label className="input input-bordered flex">
+              <input type="email" className="grow" />
+            </label>
+            <div className="flex mt-2 justify-center">
+              <button className="btn btn-primary size-sm">
+                Send Reset Email
+              </button>
+            </div>
+          </div>
+        </div>
+      </dialog>
     </>
   );
 };
