@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import PatientCard from "../components/PatientCard";
 import instance from "../utils/axios";
 import { getToken } from "../utils/tokenHelpers";
+import UploadPDFCard from "../components/UploadPDFCard";
 
 const Dashboard = () => {
   const [patients, setPatients] = useState();
@@ -210,14 +211,7 @@ const Dashboard = () => {
               </form>
               <h3 className="font-bold text-lg">Upload PDF</h3>
               <hr />
-              <div className="mt-4">
-                <label className="input input-bordered flex">
-                  <input type="email" className="grow" />
-                </label>
-                <div className="flex mt-2 justify-center">
-                  <button className="btn btn-primary size-sm">Upload</button>
-                </div>
-              </div>
+              <UploadPDFCard />
             </div>
           </dialog>
         </>
