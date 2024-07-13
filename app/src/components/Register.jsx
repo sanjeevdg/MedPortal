@@ -145,20 +145,9 @@ const Register = () => {
                 </label>
               )}
 
-              <div className="text-center">
-                {loading ? (
-                  <div className="spinner-border text-primary" role="status">
-                    {/* <span className="visually-hidden">Loading...</span> */}
-                  </div>
-                ) : (
-                  <button
-                    className="btn btn-primary btn-md"
-                    onClick={handleSubmit}
-                  >
-                    Register
-                  </button>
-                )}
-              </div>
+              <button className="btn btn-primary btn-md" onClick={handleSubmit}>
+                Register
+              </button>
             </form>
             <p className="text-center mt-8 text-lg cursor-pointer">
               {/* Redirect to signup page */}
