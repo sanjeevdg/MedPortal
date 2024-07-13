@@ -22,6 +22,12 @@ Video Demo: https://www.loom.com/share/8194696d5a944b388822d9d175432021?sid=4f57
 <br/>
 
 ![alt text](assets/UploadedPDFs.png)
+<br/>
+<br/>
+
+![alt text](assets/login.png)
+
+![alt text](assets/ResponsiveDashboard.png)
 
 ## Features
 
@@ -42,6 +48,14 @@ Video Demo: https://www.loom.com/share/8194696d5a944b388822d9d175432021?sid=4f57
    - Doctors can link their profiles with patient profiles.
    - Functionality to assign or link a patient to a doctor.
    - Doctor-patient relationships are stored in the database.
+
+## Project Structure
+
+```
+.
+├── app
+├── backend
+```
 
 ## Setup Instructions
 
