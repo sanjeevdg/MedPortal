@@ -1,6 +1,6 @@
-import { verify } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
-const authorizeUser = async (req, res, next) => {
+export const authorizeUser = async (req, res, next) => {
   try {
     // Extract the authorization header (optional)
     const authHeader = req.headers.authorization;
@@ -25,12 +25,12 @@ const authorizeUser = async (req, res, next) => {
 
     // Extract the token from the second part
     const token = parts[1];
-
+    console.log(token);
     const secretKey = process.env.SECRET_KEY;
 
     let payload;
     try {
-      payload = verify(token, secretKey);
+      payload = jwt.verify(token, secretKey);
     } catch (error) {
       return res.status(401).json({
         success: false,
@@ -46,11 +46,10 @@ const authorizeUser = async (req, res, next) => {
     }
     next();
   } catch (error) {
+    console.error(error);
     return res.status(500).json({
       success: false,
       message: error.message,
     });
   }
 };
-
-export default { authorizeUser };

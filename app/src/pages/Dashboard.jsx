@@ -1,16 +1,23 @@
 import { useEffect, useState } from "react";
 import PatientCard from "../components/PatientCard";
 import instance from "../utils/axios";
+import { getToken } from "../utils/tokenHelpers";
 
 const Dashboard = () => {
   const [patients, setPatients] = useState();
   useEffect(() => {
     document.title = "Dashboard";
     try {
-      instance.get("patients").then((response) => {
-        setPatients(response.data);
-        console.log(response.data);
-      });
+      instance
+        .get("patients", {
+          headers: {
+            Authorization: `Bearer ${getToken()}`,
+          },
+        })
+        .then((response) => {
+          setPatients(response.data);
+          console.log(response.data);
+        });
     } catch (error) {
       console.error("Error:", error);
     }
