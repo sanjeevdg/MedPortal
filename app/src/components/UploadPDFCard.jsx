@@ -9,8 +9,11 @@ const UploadPDFCard = () => {
   const [uploading, setUploading] = useState(false);
 
   const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
-    console.log(event.target.files[0]);
+    if (event.target.files[0].type == "application/pdf") {
+      setFile(event.target.files[0]);
+    } else {
+      alert("Please upload a PDF file only");
+    }
   };
 
   const uploadFile = async () => {
