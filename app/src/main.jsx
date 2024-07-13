@@ -7,7 +7,7 @@ import Footer from "./components/Footer.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <div className="flex flex-row min-h-svh justify-between">
+    <div className="min-h-svh justify-between">
       <NavBar />
       <App />
       <Footer />

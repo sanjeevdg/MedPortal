@@ -1,31 +1,35 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import PatientCard from "../components/PatientCard";
 import instance from "../utils/axios";
 
 const Dashboard = () => {
-  const patient = {
-    name: "Das",
-    email: "",
-    phone: "",
-    address: "",
-  };
+  const [patients, setPatients] = useState();
   useEffect(() => {
     document.title = "Dashboard";
     try {
       instance.get("patients").then((response) => {
+        setPatients(response.data);
         console.log(response.data);
       });
     } catch (error) {
       console.error("Error:", error);
     }
-  });
+  }, []);
   return (
     <div className="mt-16">
-      <span className="text-3xl mb-16">Dashboard</span>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20">
-        <PatientCard patient={patient} />
-        <PatientCard patient={patient} />
-        <PatientCard patient={patient} />
+      <span className="text-2xl mb-16">Dashboard</span>
+      <div className="flex justify-between mt-4 ">
+        <button className="btn btn-primary sm:btn-sm ">Link Patient</button>
+        <button className="btn btn-primary ml-4 sm:btn-sm">Upload PDF</button>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20 mt-4">
+        {patients && patients.length != 0 ? (
+          patients.map((patient) => (
+            <PatientCard patient={patient} key={patient.patientId} />
+          ))
+        ) : (
+          <div className="flex justify-center items-center text-sm"></div>
+        )}
       </div>
     </div>
   );

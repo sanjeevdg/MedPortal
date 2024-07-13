@@ -1,11 +1,12 @@
 const PatientCard = ({ patient }) => {
   return (
-    <div className="card border shadow-2xl rounded-2xl w-72 h-32">
-      <div className="card-body">
-        <h2 className="card-title">{patient.name}</h2>
-        <p className="text-xs">{patient.email}</p>
-        <p className="text-xs">{patient.phone}</p>
-        <p className="text-xs">{patient.address}</p>
+    <div className="flex flex-row space-x-4">
+      <div className="card border shadow-2xl rounded-2xl w-72 h-32 justify-start">
+        <span className="card-title ">{patient.name}</span>
+        <span className="text-xs text-left">{patient.email}</span>
+        <span className="text-xs text-left">
+          Patient ID: {patient.patientId}
+        </span>
       </div>
     </div>
   );
