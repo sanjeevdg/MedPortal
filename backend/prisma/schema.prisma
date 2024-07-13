@@ -14,37 +14,37 @@ datasource db {
 }
 
 model Doctor {
-  DoctorID    Int       @id @default(autoincrement())
-  Name        String
-  Email       String    @unique
-  PasswordHash String
-  Specialty   String?
-  PDFs        PDF[]
-  DoctorPatient DoctorPatient[]
+  doctorId    Int       @id @default(autoincrement())
+  name        String
+  email       String    @unique
+  password String
+  specialty   String?
+  pdfs        PDF[]
+  doctorpatient DoctorPatient[]
 }
 
 model Patient {
-  PatientID    Int       @id @default(autoincrement())
-  Name         String
-  Email        String    @unique
-  PasswordHash String
-  DoctorPatient DoctorPatient[]
+  patientId    Int       @id @default(autoincrement())
+  name         String
+  email        String    @unique
+  password String
+  doctorpatient DoctorPatient[]
 }
 
 model PDF {
-  PDFID      Int       @id @default(autoincrement())
-  DoctorID   Int
-  FilePath   String
-  UploadDate DateTime  @default(now())
-  Doctor     Doctor    @relation(fields: [DoctorID], references: [DoctorID])
+  pdfId      Int       @id @default(autoincrement())
+  doctorId   Int
+  filePath   String
+  uploadDate DateTime  @default(now())
+  doctor     Doctor    @relation(fields: [doctorId], references: [doctorId])
 }
 
 model DoctorPatient {
-  DoctorID Int
-  PatientID Int
-  Doctor   Doctor @relation(fields: [DoctorID], references: [DoctorID])
-  Patient  Patient @relation(fields: [PatientID], references: [PatientID])
+  doctorID Int
+  patientID Int
+  doctor   Doctor @relation(fields: [doctorID], references: [doctorId])
+  patient  Patient @relation(fields: [patientID], references: [patientId])
 
-  @@id([DoctorID, PatientID])
+  @@id([doctorID, patientID])
 }
 
