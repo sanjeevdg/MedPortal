@@ -1,5 +1,4 @@
 import { useState } from "react";
-// import AWS from "aws-sdk"; // Import entire SDK (optional)
 import AWS from "aws-sdk/global"; // Import global AWS namespace (recommended)
 import S3 from "aws-sdk/clients/s3"; // Import only the S3 client
 import instance from "../utils/axios";
@@ -18,7 +17,6 @@ const UploadPDFCard = () => {
     setUploading(true);
     const S3_BUCKET = import.meta.env.VITE_AWS_BUCKET;
     const REGION = import.meta.env.VITE_AWS_REGION;
-    console.log(S3_BUCKET, REGION);
     AWS.config.update({
       accessKeyId: import.meta.env.VITE_AWS_ACCESS_KEY,
       secretAccessKey: import.meta.env.VITE_AWS_SECRET_KEY,
