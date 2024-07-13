@@ -7,7 +7,7 @@ const LoginPage = () => {
 
   return (
     <>
-      <div className="mt-16">
+      <div className="mt-16 ">
         <div role="tablist" className="tabs tabs-lifted">
           <a
             role="tab"
