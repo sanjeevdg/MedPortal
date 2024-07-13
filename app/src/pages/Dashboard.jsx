@@ -3,6 +3,7 @@ import PatientCard from "../components/PatientCard";
 import instance from "../utils/axios";
 import { getToken } from "../utils/tokenHelpers";
 import UploadPDFCard from "../components/UploadPDFCard";
+import ViewPDFs from "../components/ViewPDFs";
 
 const Dashboard = () => {
   const [patients, setPatients] = useState();
@@ -102,13 +103,26 @@ const Dashboard = () => {
             >
               Link Patient
             </button>
-            <button
-              className="btn btn-primary ml-4 sm:btn-sm"
-              onClick={() => document.getElementById("my_modal_6").showModal()}
-            >
-              Upload PDF
-            </button>
+            <div className="flex gap-4">
+              <button
+                className="btn btn-primary ml-4 sm:btn-sm"
+                onClick={() =>
+                  document.getElementById("my_modal_6").showModal()
+                }
+              >
+                Upload PDF
+              </button>
+              <button
+                className="btn btn-primary sm:btn-sm"
+                onClick={() =>
+                  document.getElementById("my_modal_10").showModal()
+                }
+              >
+                View PDFs
+              </button>
+            </div>
           </div>
+          <div className="flex justify-end"></div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20 mt-4">
             {patients && patients.length != 0 ? (
               patients.map((patient) => (
@@ -212,6 +226,19 @@ const Dashboard = () => {
               <h3 className="font-bold text-lg">Upload PDF</h3>
               <hr />
               <UploadPDFCard />
+            </div>
+          </dialog>
+          <dialog
+            id="my_modal_10"
+            className="modal modal-bottom sm:modal-middle"
+          >
+            <div className="modal-box">
+              <form method="dialog">
+                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                  ✕
+                </button>
+              </form>
+              <ViewPDFs />
             </div>
           </dialog>
         </>
