@@ -13,12 +13,6 @@ This project provides a comprehensive portal for doctors, enabling them to sign 
 
 Video Demo: https://www.loom.com/share/8194696d5a944b388822d9d175432021?sid=4f577429-f7bd-413b-a8ad-f43127f4ac74
 
-![alt text](assets/login.png)
-<br/>
-<br/>
-![alt text](assets/ResponsiveDashboard.png)
-<br/>
-<br/>
 ![alt text](assets/Dashboard.png)
 <br/>
 <br/>
