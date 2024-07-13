@@ -53,7 +53,18 @@ const ViewPDFs = () => {
       if (err) {
         console.error(err);
       } else {
-        console.log(data);
+        const blob = new Blob([data.Body], { type: "application/pdf" });
+
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = pdfName;
+        document.body.appendChild(link);
+        link.click();
+
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
       }
     });
   };
@@ -62,15 +73,19 @@ const ViewPDFs = () => {
       <h3 className="font-bold text-lg mb-4">View PDFs uploaded</h3>
       <hr className="mb-4" />
       <ul className=" list-inside space-y-2 ">
-        {pdfNames.map((pdfName, index) => (
-          <li
-            key={index}
-            className="text-blue-600 hover:underline cursor-pointer"
-            onClick={() => downloadPDF(pdfName)}
-          >
-            {pdfName}
-          </li>
-        ))}
+        {pdfNames && pdfNames.length != 0 ? (
+          pdfNames.map((pdfName, index) => (
+            <li
+              key={index}
+              className="text-blue-600 hover:underline cursor-pointer"
+              onClick={() => downloadPDF(pdfName)}
+            >
+              {pdfName}
+            </li>
+          ))
+        ) : (
+          <p>No PDFs uploaded</p>
+        )}
       </ul>
     </div>
   );
