@@ -79,7 +79,7 @@ const Dashboard = () => {
     }
   }, []);
   return (
-    <div className="mt-16">
+    <div className="mt-16 min-h-screen">
       <span className="text-2xl mb-16">Dashboard</span>
       <div className="flex justify-between mt-4 ">
         <button
