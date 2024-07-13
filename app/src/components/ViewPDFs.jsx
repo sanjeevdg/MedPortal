@@ -21,7 +21,6 @@ const ViewPDFs = () => {
           },
         }
       );
-      console.log(response.data);
       let pdfList = [];
       response.data.forEach((pdf) => {
         const decodedUrl = decodeURIComponent(pdf.filePath);
@@ -36,7 +35,6 @@ const ViewPDFs = () => {
   };
 
   const downloadPDF = async (pdfName) => {
-    console.log(pdfName);
     const S3_BUCKET = import.meta.env.VITE_AWS_BUCKET;
     const REGION = import.meta.env.VITE_AWS_REGION;
     AWS.config.update({

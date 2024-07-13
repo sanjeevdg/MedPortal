@@ -25,7 +25,6 @@ export const authorizeUser = async (req, res, next) => {
 
     // Extract the token from the second part
     const token = parts[1];
-    // console.log(token);
     const secretKey = process.env.SECRET_KEY;
 
     let payload;

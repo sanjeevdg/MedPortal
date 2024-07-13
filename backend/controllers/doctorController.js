@@ -53,7 +53,6 @@ export const getDoctorPatients = async (req, res) => {
         });
 
         const patients = await Promise.all(patientPromises);
-        console.log(patients);
 
         res.status(200).json(patients);
       } catch (error) {

@@ -37,8 +37,7 @@ const UploadPDFCard = () => {
     };
 
     try {
-      const upload = await s3.putObject(params).promise();
-      console.log(upload);
+      await s3.putObject(params).promise();
       const encodedFileName = encodeURIComponent(file.name);
       const fileUrl = `https://${S3_BUCKET}.s3.${REGION}.amazonaws.com/${encodedFileName}`;
       const doctorId = JSON.parse(localStorage.getItem("user")).doctorId;

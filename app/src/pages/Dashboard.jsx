@@ -35,7 +35,6 @@ const Dashboard = () => {
           },
         }
       );
-      console.log(response.data);
       if (response.data.length != 0) {
         setDropdownOpen(true);
       }
@@ -82,7 +81,6 @@ const Dashboard = () => {
         })
         .then((response) => {
           setPatients(response.data);
-          console.log(response.data);
         });
       setLoading(false);
     } catch (error) {
