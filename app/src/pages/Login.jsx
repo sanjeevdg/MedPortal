@@ -18,7 +18,7 @@ const LoginPage = () => {
           </a>
           <div
             role="tabpanel"
-            className="tab-content bg-base-100 border-base-300 rounded-box p-6"
+            className="tab-content bg-base-100 border-base-300 rounded-box w-96 "
           >
             <Login />
           </div>
@@ -32,7 +32,7 @@ const LoginPage = () => {
 
           <div
             role="tabpanel"
-            className="tab-content bg-base-100 border-base-300 rounded-box p-6"
+            className="tab-content bg-base-100 border-base-300 rounded-box w-96 h-[32rem]"
           >
             <Register />
           </div>
