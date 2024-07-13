@@ -96,14 +96,14 @@ const Dashboard = () => {
           <span className="text-2xl mb-16">Dashboard</span>
           <div className="flex justify-between mt-4 ">
             <button
-              className="btn btn-primary sm:btn-sm "
+              className="btn btn-primary ml-4 btn-xs sm:btn-sm"
               onClick={() => document.getElementById("my_modal_5").showModal()}
             >
               Link Patient
             </button>
             <div className="flex gap-4">
               <button
-                className="btn btn-primary ml-4 sm:btn-sm"
+                className="btn btn-primary ml-4 btn-xs sm:btn-sm"
                 onClick={() =>
                   document.getElementById("my_modal_6").showModal()
                 }
@@ -111,7 +111,7 @@ const Dashboard = () => {
                 Upload PDF
               </button>
               <button
-                className="btn btn-primary sm:btn-sm"
+                className="btn btn-primary btn-xs sm:btn-sm"
                 onClick={() =>
                   document.getElementById("my_modal_10").showModal()
                 }

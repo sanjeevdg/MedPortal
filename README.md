@@ -2,9 +2,23 @@
 
 This project provides a comprehensive portal for doctors, enabling them to sign up, log in, upload PDF files, and link their profiles with patient profiles. The project utilizes modern technologies for both the frontend and backend, ensuring secure and efficient data handling.
 
+## Technology Stack
+
+- **Frontend**: React with Vite, DaisyUI, Tailwind CSS
+- **Backend**: Node.js, Prisma
+- **Database**: PostgreSQL hosted on Aiven
+- **Storage**: AWS S3
+
 ## Demo
 
 Video Demo: https://www.loom.com/share/8194696d5a944b388822d9d175432021?sid=4f577429-f7bd-413b-a8ad-f43127f4ac74
+
+![alt text](assets/login.png)
+<br/>
+<br/>
+![alt text](assets/ResponsiveDashboard.png)
+<br/>
+<br/>
 ![alt text](assets/Dashboard.png)
 <br/>
 <br/>
@@ -14,13 +28,6 @@ Video Demo: https://www.loom.com/share/8194696d5a944b388822d9d175432021?sid=4f57
 <br/>
 
 ![alt text](assets/UploadedPDFs.png)
-
-## Technology Stack
-
-- **Frontend**: React with Vite, DaisyUI, Tailwind CSS
-- **Backend**: Node.js, Prisma
-- **Database**: PostgreSQL hosted on Aiven
-- **Storage**: AWS S3
 
 ## Features
 
