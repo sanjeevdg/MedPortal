@@ -1,8 +1,12 @@
 import { useState } from "react";
 import instance from "../utils/axios";
+import { useNavigate } from "react-router-dom";
+import { setToken } from "../utils/tokenHelpers";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userType, setUserType] = useState("doctor");
@@ -27,8 +31,10 @@ const Login = () => {
     const data = { email, password, userType };
     try {
       const response = await instance.post("auth/login", data);
-      console.log(response.data);
       setLoading(false);
+      setToken(response.data.token);
+      navigate("/dashboard");
+      window.location.reload();
     } catch (error) {
       console.error("Error:", error);
     }

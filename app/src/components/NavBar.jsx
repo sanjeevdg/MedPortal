@@ -1,4 +1,8 @@
+import { clearToken, getToken } from "../utils/tokenHelpers";
+
 const NavBar = () => {
+  const token = getToken();
+
   return (
     <>
       <div className="navbar bg-base-100 fixed top-0 left-0 right-0 border-y z-50 h-10">
@@ -6,7 +10,32 @@ const NavBar = () => {
           <a className="btn btn-ghost text-xl">MedPortal</a>
         </div>
 
-        <div className="navbar-end"></div>
+        <div className="navbar-end">
+          {token && (
+            <div
+              className="cursor-pointer"
+              onClick={() => {
+                clearToken();
+                window.location.reload();
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75"
+                />
+              </svg>
+            </div>
+          )}
+        </div>
       </div>
     </>
   );

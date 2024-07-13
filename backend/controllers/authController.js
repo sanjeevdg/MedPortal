@@ -5,6 +5,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 const registerUser = async (req, res) => {
   const { name, email, password, userType, specialty } = req.body;
+  console.log(name, email, password, userType, specialty);
   try {
     const hashedPassword = await hash(password, 10);
     let user;
