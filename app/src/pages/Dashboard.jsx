@@ -105,7 +105,10 @@ const Dashboard = () => {
           <div className="flex justify-center items-center text-sm"></div>
         )}
       </div>
-      <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
+      <dialog
+        id="my_modal_5"
+        className="modal modal-bottom sm:modal-middle modal-scroll"
+      >
         <div className="modal-box">
           <form method="dialog">
             {/* Link Patient Modal*/}
