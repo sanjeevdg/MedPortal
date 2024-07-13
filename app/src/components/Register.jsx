@@ -65,6 +65,8 @@ const Register = () => {
     try {
       const response = await instance.post("auth/register", data);
       console.log(response.data);
+      alert("User registered successfully");
+      window.location.reload();
     } catch (error) {
       console.error("Error:", error);
       alert("Unable to register user");
