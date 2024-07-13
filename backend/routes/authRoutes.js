@@ -1,12 +1,8 @@
 import express from "express";
-import {
-  login,
-  registerDoctor,
-  registerPatient,
-} from "../controllers/authController.js";
+import { login, registerUser } from "../controllers/authController.js";
 const authRoutes = express.Router();
 
 authRoutes.post("/login", login);
-authRoutes.post("/register-doctor", registerDoctor);
-authRoutes.post("/register-patient", registerPatient);
+authRoutes.post("/register", registerUser);
+
 export default authRoutes;

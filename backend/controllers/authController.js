@@ -3,39 +3,32 @@ import jwt from "jsonwebtoken";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
-
-const registerDoctor = async (req, res) => {
-  const { name, email, password, specialty } = req.body;
+const registerUser = async (req, res) => {
+  const { name, email, password, userType, specialty } = req.body;
   try {
     const hashedPassword = await hash(password, 10);
-    const doctor = await prisma.doctor.create({
-      data: {
-        name,
-        email,
-        password: hashedPassword,
-        specialty,
-      },
-    });
-    res.status(201).json({ message: "Doctor registered successfully", doctor });
-  } catch (error) {
-    res.status(400).json({ error: "Email already exists or invalid data" });
-  }
-};
-
-const registerPatient = async (req, res) => {
-  const { name, email, password } = req.body;
-  try {
-    const hashedPassword = await hash(password, 10);
-    const patient = await prisma.patient.create({
-      data: {
-        name,
-        email,
-        password: hashedPassword,
-      },
-    });
-    res
-      .status(201)
-      .json({ message: "Patient registered successfully", patient });
+    let user;
+    if (userType === "doctor") {
+      user = await prisma.doctor.create({
+        data: {
+          name,
+          email,
+          password: hashedPassword,
+          specialty,
+        },
+      });
+    } else if (userType === "patient") {
+      user = await prisma.patient.create({
+        data: {
+          name,
+          email,
+          password: hashedPassword,
+        },
+      });
+    } else {
+      return res.status(400).json({ error: "Invalid user type" });
+    }
+    res.status(201).json({ message: "User registered successfully", user });
   } catch (error) {
     res.status(400).json({ error: "Email already exists or invalid data" });
   }
@@ -62,4 +55,4 @@ const login = async (req, res) => {
   const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
   res.json({ token });
 };
-export { registerDoctor, registerPatient, login };
+export { registerUser, login };
