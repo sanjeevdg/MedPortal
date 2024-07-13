@@ -1,19 +1,18 @@
-import prisma from "@prisma/client";
 import { hash } from "bcrypt";
 import jwt from "jsonwebtoken";
+import { PrismaClient } from "@prisma/client";
 
-const { PrismaClient } = prisma;
-const prismaClient = new PrismaClient();
+const prisma = new PrismaClient();
 
 const registerDoctor = async (req, res) => {
   const { name, email, password, specialty } = req.body;
   try {
     const hashedPassword = await hash(password, 10);
-    const doctor = await prismaClient.doctor.create({
+    const doctor = await prisma.doctor.create({
       data: {
         name,
         email,
-        passwordHash: hashedPassword,
+        password: hashedPassword,
         specialty,
       },
     });
@@ -27,11 +26,11 @@ const registerPatient = async (req, res) => {
   const { name, email, password } = req.body;
   try {
     const hashedPassword = await hash(password, 10);
-    const patient = await prismaClient.patient.create({
+    const patient = await prisma.patient.create({
       data: {
         name,
         email,
-        passwordHash: hashedPassword,
+        password: hashedPassword,
       },
     });
     res
@@ -44,7 +43,7 @@ const registerPatient = async (req, res) => {
 const login = async (req, res) => {
   const { email, password, userType } = req.body;
   if (userType === "patient") {
-    user = await prismaClient.patient.findUnique({
+    user = await prisma.patient.findUnique({
       where: {
         email,
       },
@@ -56,13 +55,10 @@ const login = async (req, res) => {
       },
     });
   }
-  if (!user) {
+  if (!user || !(hash(password, 10) == user.password)) {
     return res.status(400).json({ error: "Invalid email or password" });
   }
-  const isValid = await compare();
-  if (!(hash(password, 10) == user.passwordHash)) {
-    return res.status(400).json({ error: "Invalid email or password" });
-  }
+
   const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
   res.json({ token });
 };
