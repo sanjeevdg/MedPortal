@@ -1,5 +1,6 @@
 import { useState } from "react";
 import instance from "../utils/axios";
+import validator from "validator";
 
 const Register = () => {
   const [loading, setLoading] = useState(false);
@@ -8,6 +9,7 @@ const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (event) => {
     switch (event.target.name) {
@@ -30,6 +32,29 @@ const Register = () => {
         break;
     }
   };
+  const validate = (value, type) => {
+    if (type === "password") {
+      if (
+        !validator.isStrongPassword(value, {
+          minLength: 8,
+          minUppercase: 1,
+        })
+      ) {
+        setErrorMessage(
+          "Passwords must have at least 8 characters and contain at least one uppercase letter"
+        );
+      } else {
+        setErrorMessage("");
+      }
+    }
+    if (type === "email") {
+      if (!validator.isEmail(value)) {
+        setErrorMessage("Invalid Email");
+      } else {
+        setErrorMessage("");
+      }
+    }
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -42,6 +67,7 @@ const Register = () => {
       console.log(response.data);
     } catch (error) {
       console.error("Error:", error);
+      alert("Unable to register user");
     }
     setLoading(false);
   };
@@ -110,7 +136,10 @@ const Register = () => {
                   required
                   placeholder="Enter email"
                   className="grow"
-                  onChange={(e) => handleChange(e)}
+                  onChange={(e) => {
+                    validate(e.target.value, "email");
+                    handleChange(e);
+                  }}
                 />
               </label>
               <label className="input input-bordered flex items-center gap-2 mb-4">
@@ -131,7 +160,10 @@ const Register = () => {
                   className="grow"
                   name="password"
                   placeholder="Enter password"
-                  onChange={(e) => handleChange(e)}
+                  onChange={(e) => {
+                    validate(e.target.value, "password");
+                    handleChange(e);
+                  }}
                 />
               </label>
 
@@ -146,7 +178,11 @@ const Register = () => {
                   />
                 </label>
               )}
-
+              {errorMessage === "" ? null : (
+                <div className="text-red-500 font-bold text-xs">
+                  {errorMessage}
+                </div>
+              )}
               <button className="btn btn-primary btn-md" onClick={handleSubmit}>
                 Register
               </button>

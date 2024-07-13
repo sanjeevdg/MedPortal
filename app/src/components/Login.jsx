@@ -2,8 +2,35 @@ import { useState } from "react";
 import instance from "../utils/axios";
 import { useNavigate } from "react-router-dom";
 import { setToken } from "../utils/tokenHelpers";
+import validator from "validator";
 
 const Login = () => {
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const validate = (value, type) => {
+    if (type === "password") {
+      if (
+        !validator.isStrongPassword(value, {
+          minLength: 8,
+          minUppercase: 1,
+        })
+      ) {
+        setErrorMessage(
+          "Passwords must have at least 8 characters and contain at least one uppercase letter"
+        );
+      } else {
+        setErrorMessage("");
+      }
+    }
+    if (type === "email") {
+      if (!validator.isEmail(value)) {
+        setErrorMessage("Invalid Email");
+      } else {
+        setErrorMessage("");
+      }
+    }
+  };
+
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -91,7 +118,10 @@ const Login = () => {
                   className="grow"
                   type="email"
                   name="email"
-                  onChange={(e) => handleChange(e)}
+                  onChange={(e) => {
+                    handleChange(e);
+                    validate(e.target.value, "email");
+                  }}
                 />
               </label>
               <label className="input input-bordered flex items-center gap-2 mb-4">
@@ -112,16 +142,27 @@ const Login = () => {
                   className="grow"
                   placeholder="Enter password"
                   name="password"
-                  onChange={(e) => handleChange(e)}
+                  onChange={(e) => {
+                    handleChange(e);
+                    validate(e.target.value, "password");
+                  }}
                 />
               </label>
+              {errorMessage === "" ? null : (
+                <span className="text-red-500 font-bold text-xs">
+                  {errorMessage}
+                </span>
+              )}
               {!loading ? (
-                <button
-                  className="btn btn-md btn-primary"
-                  onClick={handleSubmit}
-                >
-                  Login
-                </button>
+                <div>
+                  {" "}
+                  <button
+                    className="btn btn-md btn-primary"
+                    onClick={handleSubmit}
+                  >
+                    Login
+                  </button>
+                </div>
               ) : (
                 <button className="btn btn-md btn-primary min-w-16">
                   <span className="loading loading-spinner loading-sm text-white"></span>
