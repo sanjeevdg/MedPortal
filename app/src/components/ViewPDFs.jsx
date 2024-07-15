@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import instance from "../utils/axios";
 import { getToken } from "../utils/tokenHelpers";
-const { S3Client, GetObjectCommand } = require("@aws-sdk/client-s3");
+import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
 
 const ViewPDFs = () => {
   const [pdfNames, setPDFNames] = useState([]);
