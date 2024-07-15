@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 
 import instance from "../utils/axios";
 import { getToken } from "../utils/tokenHelpers";
