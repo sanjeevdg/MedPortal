@@ -1,6 +1,6 @@
 import { useState } from "react";
-import AWS from "aws-sdk/global"; // Import global AWS namespace (recommended)
-import S3 from "aws-sdk/clients/s3"; // Import only the S3 client
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+
 import instance from "../utils/axios";
 import { getToken } from "../utils/tokenHelpers";
 
@@ -20,14 +20,13 @@ const UploadPDFCard = () => {
     setUploading(true);
     const S3_BUCKET = import.meta.env.VITE_AWS_BUCKET;
     const REGION = import.meta.env.VITE_AWS_REGION;
-    AWS.config.update({
-      accessKeyId: import.meta.env.VITE_AWS_ACCESS_KEY,
-      secretAccessKey: import.meta.env.VITE_AWS_SECRET_KEY,
-    });
 
-    const s3 = new S3({
-      params: { Bucket: S3_BUCKET },
+    const client = new S3Client({
       region: REGION,
+      credentials: {
+        accessKeyId: import.meta.env.VITE_AWS_ACCESS_KEY,
+        secretAccessKey: import.meta.env.VITE_AWS_SECRET_KEY,
+      },
     });
 
     const params = {
@@ -37,7 +36,8 @@ const UploadPDFCard = () => {
     };
 
     try {
-      await s3.putObject(params).promise();
+      const command = new PutObjectCommand(params);
+      await client.send(command);
       const encodedFileName = encodeURIComponent(file.name);
       const fileUrl = `https://${S3_BUCKET}.s3.${REGION}.amazonaws.com/${encodedFileName}`;
       const doctorId = JSON.parse(localStorage.getItem("user")).doctorId;

@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import AWS from "aws-sdk/global"; // Import global AWS namespace (recommended)
-import S3 from "aws-sdk/clients/s3"; // Import only the S3 client
 import instance from "../utils/axios";
 import { getToken } from "../utils/tokenHelpers";
+import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
 
 const ViewPDFs = () => {
   const [pdfNames, setPDFNames] = useState([]);
@@ -37,34 +36,36 @@ const ViewPDFs = () => {
   const downloadPDF = async (pdfName) => {
     const S3_BUCKET = import.meta.env.VITE_AWS_BUCKET;
     const REGION = import.meta.env.VITE_AWS_REGION;
-    AWS.config.update({
-      accessKeyId: import.meta.env.VITE_AWS_ACCESS_KEY,
-      secretAccessKey: import.meta.env.VITE_AWS_SECRET_KEY,
-    });
 
-    const s3 = new S3({
-      params: { Bucket: S3_BUCKET },
+    const client = new S3Client({
       region: REGION,
+      credentials: {
+        accessKeyId: import.meta.env.VITE_AWS_ACCESS_KEY,
+        secretAccessKey: import.meta.env.VITE_AWS_SECRET_KEY,
+      },
     });
+    try {
+      const command = new GetObjectCommand({
+        Bucket: S3_BUCKET,
+        Key: pdfName,
+      });
+      const data = await client.send(command);
+      const bytearray = await data.Body.transformToByteArray();
+      const blob = new Blob([bytearray], { type: "application/pdf" });
 
-    s3.getObject({ Bucket: S3_BUCKET, Key: pdfName }, (err, data) => {
-      if (err) {
-        console.error(err);
-      } else {
-        const blob = new Blob([data.Body], { type: "application/pdf" });
+      const url = URL.createObjectURL(blob);
 
-        const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = pdfName;
+      document.body.appendChild(link);
+      link.click();
 
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = pdfName;
-        document.body.appendChild(link);
-        link.click();
-
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
-      }
-    });
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <div>
